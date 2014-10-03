@@ -1,4 +1,4 @@
 kimchiGeneratorBundle
 =====================
 
-Extends and customizes SensioGeneratorBundle
+Extends and customizes Symfony 2 SensioGeneratorBundle

@@ -1,0 +1,26 @@
+{
+    "name": "kimchi/generator-bundle",
+    "description": "This bundle generates code for you",
+    "keywords": ["admin", "generator", "symfony"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Sauveur",
+            "email": "nicolas.sauveur@gmail.com"
+        }
+    ],
+    "require": {
+        "sension/generator-bundle": "~2.4"
+    },
+    "autoload": {
+        "psr-0": { "Kimchi\\Bundle\\GeneratorBundle": "" }
+    },
+    "target-dir": "Kimchi/Bundle/GeneratorBundle",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4.x-dev"
+        }
+    }
+}

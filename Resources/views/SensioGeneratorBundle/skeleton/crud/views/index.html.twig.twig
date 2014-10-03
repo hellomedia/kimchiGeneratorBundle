@@ -1,0 +1,84 @@
+{% block extends %}
+{{ "{% extends 'KimchiGeneratorBundle:Layout:layout.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% block main_content %}" }}
+<div id="widget-grid">
+    <div class="row">
+        <article class="col-md-12 sortable-grid ui-sortable">
+            {% embed 'GrizzlyLabAdminBundle:includes:table-widget.html.twig' %}
+                {% block widget_id 'jw-sotwares' %}
+                {% block widget_icon 'fa-cube' %}
+                {% block widget_title %}{{ 'Softwares' |trans | title }}{% endblock %}
+                {% block datatable_id 'datatable_softwares' %}
+                {% block datatable_headings %}
+                <thead>
+                    <tr>
+                    {%- for field, metadata in fields %}
+
+                        <th>{{ field|capitalize }}</th>
+
+                    {%- endfor %}
+
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                {% endblock %}
+                {% block datatable_filters %}
+
+                {% endblock %}
+                {% block datatable_body %}
+                <tbody>
+                {{ '{% for entity in entities %}' }}
+                    <tr>
+
+                {%- for field, metadata in fields %}
+                    {%- if loop.first and ('show' in actions) %}
+
+                        <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': entity."~ identifier ~" }) }}" }}">{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+
+                    {%- elseif metadata.type in ['date', 'datetime'] %}
+
+                        <td>{{ '{% if entity.' ~ field|replace({'_': ''}) ~ ' %}{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+
+                    {%- else %}
+
+                        <td>{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+                    {%- endif %}
+
+                    {%- if loop.last %}
+
+                        <td>
+                            {%- include "crud/views/others/actions.html.twig.twig" %}
+                        </td>
+
+                    {%- endif %}
+                {%- endfor %}
+
+                    </tr>
+                {{ '{% endfor %}' }}
+                </tbody>
+                {% endblock %}
+            {% endembed %}
+        </article>
+    </div>
+</div>
+{{ "{% endblock %}" }}
+
+{{ "{% block javascripts %}" }}
+{{ parent() }}
+<script>
+$('#datatable_softwares').dataTable({
+    "dom": "<'dt-toolbar'<'col-xs-12 col-sm-6 add-item'><'col-sm-6 col-xs-12 hidden-xs'lf>r>"+
+        "t"+
+        "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+});
+{% if 'new' in actions %}
+$('.add-item').html('<a href="{{ "{{ path('" ~ route_name_prefix ~ "_new') }}" }}" class="btn btn-default"><i class="fa fa-plus"></i> Create a new entry</a>');
+{% endif %}
+</script>
+{{ "{% endblock %}" }}
+
+{% endblock body %}
